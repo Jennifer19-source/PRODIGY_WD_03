@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-image: url('https://nestasia.in/cdn/shop/files/DSC3876_e3738aa0-88bb-4ac4-9abc-cfe6e8f6a690.jpg?v=1692767105&width=600');
+    background-size:800px;
+        }
+
+        .container {
+            display: inline-block;
+        }
+
+        .cell {
+            width: 100px;
+            height: 100px;
+            font-size: 36px;
+            border: 5px solid #f4efef;
+            border-radius: 20px;
+            cursor: pointer;
+            float: left; /* Added to ensure cells are arranged horizontally */
+            box-sizing: border-box; /* Added to include borders in cell size */
+            line-height: 100px; /* Added to vertically center text */
+        }
+
+        .row:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        header {
+            background-color:plum; /* Aqua blue background for the header */
+            color: #ffffff; /* White text color for the header */
+            padding: 40px; /* Padding around the header content */
+            font-size: 34px; 
+            font-style:inherit;/* Font size for the header text */
+            border-radius: 8px; /* Rounded corners for the header */
+            margin-bottom: 20px; /* Spacing between header and game board */
+        }
+    </style>
+</head>
+<body>
+    <header>Tic-Tac-Toe</header>
+    <div class="container">
+        <div class="row">
+            <div class="cell" id="cell-0" onclick="handleClick(0)"></div>
+            <div class="cell" id="cell-1" onclick="handleClick(1)"></div>
+            <div class="cell" id="cell-2" onclick="handleClick(2)"></div>
+        </div>
+        <div class="row">
+            <div class="cell" id="cell-3" onclick="handleClick(3)"></div>
+            <div class="cell" id="cell-4" onclick="handleClick(4)"></div>
+            <div class="cell" id="cell-5" onclick="handleClick(5)"></div>
+        </div>
+        <div class="row">
+            <div class="cell" id="cell-6" onclick="handleClick(6)"></div>
+            <div class="cell" id="cell-7" onclick="handleClick(7)"></div>
+            <div class="cell" id="cell-8" onclick="handleClick(8)"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentPlayer = 'X';
+        let gameBoard = ['', '', '', '', '', '', '', '', ''];
+
+        function handleClick(index) {
+            if (!gameBoard[index]) {
+                document.getElementById(`cell-${index}`).textContent = currentPlayer;
+                gameBoard[index] = currentPlayer;
+                checkWinner();
+                currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+            }
+        }
+
+        function checkWinner() {
+            const winningCombos = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
+                [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
+                [0, 4, 8], [2, 4, 6]             // diagonals
+            ];
+
+            for (let combo of winningCombos) {
+                const [a, b, c] = combo;
+                if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
+                    alert(`${gameBoard[a]} wins!`);
+                    resetGame();
+                    return;
+                }
+            }
+
+            if (!gameBoard.includes('')) {
+                alert("It's a draw!");
+                resetGame();
+            }
+        }
+
+        function resetGame() {
+            gameBoard = ['', '', '', '', '', '', '', '', ''];
+            document.querySelectorAll('.cell').forEach(cell => cell.textContent = '');
+        }
+    </script>
+</body>
+</html>
